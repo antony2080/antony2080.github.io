@@ -12,8 +12,9 @@
   <p id="profile"></p>
   <div id="status"></div>
   <div id="fb-root"></div>
-  <div class="fb-login-button" data-width="240" data-size="" data-button-type="" data-layout=""
-    data-auto-logout-link="true" data-use-continue-as="false"></div>
+  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+  </fb:login-button>
+
   <script async defer crossorigin="anonymous"
     src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v19.0&appId=400185982760639"
     nonce="ZQ176wS1"></script>
@@ -38,6 +39,14 @@
         document.getElementById('status').innerHTML = messageMe;
       });
     }
+
+    function checkLoginState() {
+      // Called when a person is finished with the Login Button.
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+      });
+    }
+
 
     (function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
