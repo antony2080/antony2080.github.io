@@ -32,7 +32,7 @@
 
     window.fbAsyncInit = function () {
       FB.getLoginStatus(function (response) {
-        statusChangeCallback(response);
+        console.log('[getLoginStatus] res:', JSON.stringify(response));
       });
       FB.init({
         appId: '400185982760639',
