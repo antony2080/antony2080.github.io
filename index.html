@@ -10,6 +10,7 @@
   <!-- Set the element id for the JSON response -->
 
   <p id="profile"></p>
+  <div id="status"></div>
   <div id="fb-root"></div>
   <div class="fb-login-button" data-width="240" data-size="" data-button-type="" data-layout=""
     data-auto-logout-link="true" data-use-continue-as="false"></div>
@@ -18,7 +19,25 @@
     nonce="ZQ176wS1"></script>
   <script>
 
-    <!-- Add the Facebook SDK for Javascript -->
+    function statusChangeCallback(response) {
+      // Called with the results from FB.getLoginStatus().
+      console.log('[getLoginStatus] res:', JSON.stringify(response));
+      if (response.status === 'connected') {
+        testAPI();
+      } else {
+        document.getElementById('status').innerHTML = 'Please log ' + 'into this webpage.';
+      }
+    }
+
+    function testAPI() {
+      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', { fields: 'name, email' }, function (response) {
+        let messageMe = 'Successful login for: ' + response.name + ", your email address is" + response.email;
+        console.log(messageMe);
+        document.getElementById('status').innerHTML = messageMe;
+      });
+    }
 
     (function (d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -32,24 +51,13 @@
 
     window.fbAsyncInit = function () {
       FB.getLoginStatus(function (response) {
-        console.log('[getLoginStatus] res:', JSON.stringify(response));
+        statusChangeCallback(response);
       });
       FB.init({
         appId: '400185982760639',
         xfbml: true,
         version: 'v19.0'
       });
-
-      FB.login(function (response) {
-        if (response.authResponse) {
-          console.log('Welcome!  Fetching your information.... ');
-          FB.api('/me', { fields: 'name, email' }, function (response) {
-            document.getElementById("profile").innerHTML = "Good to see you, " + response.name + ". i see your email address is " + response.email;
-          });
-        } else {
-          console.log('User cancelled login or did not fully authorize.');
-        }
-      }, { scope: 'public_profile,email' });
     };
 
   </script>
