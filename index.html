@@ -10,7 +10,12 @@
   <!-- Set the element id for the JSON response -->
 
   <p id="profile"></p>
-
+  <div id="fb-root"></div>
+  <div class="fb-login-button" data-width="240" data-size="" data-button-type="" data-layout=""
+    data-auto-logout-link="true" data-use-continue-as="false"></div>
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v19.0&appId=400185982760639"
+    nonce="ZQ176wS1"></script>
   <script>
 
     <!-- Add the Facebook SDK for Javascript -->
@@ -26,7 +31,9 @@
 
 
     window.fbAsyncInit = function () {
-
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+      });
       FB.init({
         appId: '400185982760639',
         xfbml: true,
@@ -42,7 +49,8 @@
         } else {
           console.log('User cancelled login or did not fully authorize.');
         }
-      });
+      }); <div class="fb-login-button" data-width="321" data-size="" data-button-type="" data-layout=""
+        data-auto-logout-link="false" data-use-continue-as="true"></div>;
     };
 
   </script>
