@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head></head>
+<head>
+  <title>Facebook Login JavaScript Example</title>
+  <meta charset="UTF-8">
+</head>
 
 <body>
 
@@ -12,14 +15,13 @@
   <p id="profile"></p>
   <div id="status"></div>
   <div id="fb-root"></div>
-  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-  </fb:login-button>
+  <div class="fb-login-button" data-width="240" data-size="" data-button-type="" data-layout=""
+    data-auto-logout-link="false" data-use-continue-as="false"></div>
 
   <script async defer crossorigin="anonymous"
-    src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v19.0&appId=400185982760639"
-    nonce="ZQ176wS1"></script>
+    src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v19.0&appId=400185982760639" nonce="ZQ176wS1">
+    </script>
   <script>
-
     function statusChangeCallback(response) {
       // Called with the results from FB.getLoginStatus().
       console.log('[getLoginStatus] res:', JSON.stringify(response));
@@ -57,16 +59,15 @@
     }(document, 'script', 'facebook-jssdk')
     );
 
-
     window.fbAsyncInit = function () {
-      FB.getLoginStatus(function (response) {
-        statusChangeCallback(response);
-      });
       FB.init({
         appId: '400185982760639',
         cookie: true,
         xfbml: true,
         version: 'v19.0'
+      });
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
       });
     };
 
