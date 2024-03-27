@@ -10,7 +10,9 @@
     "deploy": "npm run build && node ./deploy/ghpages.js"
   },
   "dependencies": {
-    "vue": "^3.4.21"
+    "url": "^0.11.3",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
