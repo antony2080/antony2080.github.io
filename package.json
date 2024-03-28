@@ -10,6 +10,7 @@
     "deploy": "npm run build && cp dist/index.html dist/404.html && node ./deploy/ghpages.js"
   },
   "dependencies": {
+    "pinia": "^2.1.7",
     "url": "^0.11.3",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
