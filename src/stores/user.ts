@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 // @ts-ignore
 import { apiLogin, apiMe, apiLogout, initFacebookSdk } from '@/utils/index'
-const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
+
 type User = {
   name: string,
   email: string,
