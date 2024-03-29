@@ -18,7 +18,7 @@ onMounted(() => {
         <div class="flex items-center">
           <div class="avatar">
             <div class="w-12 rounded">
-              <img :src="profile.picture.data.url" alt="me">
+              <img :src="profile.url" alt="me">
             </div>
           </div>
           <div class="pl-4">

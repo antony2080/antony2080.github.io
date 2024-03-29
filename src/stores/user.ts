@@ -6,11 +6,7 @@ const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
 type User = {
   name: string,
   email: string,
-  picture: {
-    data: {
-      url: string
-    }
-  }
+  url: string
 }
 
 export const useUserStore = defineStore('user', {
@@ -28,8 +24,8 @@ export const useUserStore = defineStore('user', {
       this.auth = authResponse
     },
     async getMe() {
-      let meRes = await apiMe()
-      this.profile = meRes
+      let { name, email, picture } = await apiMe()
+      this.profile = { name, email, url: picture?.data?.url }
     },
     async logout() {
       apiLogout()
