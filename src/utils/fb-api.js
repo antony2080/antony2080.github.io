@@ -36,6 +36,7 @@ function initFacebookSdk() {
 const apiLogin = async () => {
   let result = await new Promise((resolve) => {
     FB.login(function (response) {
+      resolve(response);
     }, { scope: 'email' });
   });
   return result;

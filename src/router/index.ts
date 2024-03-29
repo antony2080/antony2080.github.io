@@ -27,7 +27,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  if (to.meta.requiresAuth && !localStorage.getItem("isAuthenticated")) {
+  if (to.meta.requiresAuth && localStorage.getItem("accessTokenFB") == 'undefined') {
     router.push("/login");
   }
 });

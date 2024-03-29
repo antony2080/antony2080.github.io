@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
 // @ts-ignore
-import { apiLogin, apiMe, apiLogout } from '@/utils/index'
+import { apiLogin, apiMe, apiLogout, initFacebookSdk } from '@/utils/index'
 const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
-
 type User = {
   name: string,
   email: string,
@@ -12,16 +11,25 @@ type User = {
 export const useUserStore = defineStore('user', {
   state: () => ({
     auth: {},
+    isAuthenticated: false,
     profile: {} as User
   }),
   actions: {
     async load() {
-      const localAuth = sessionStorage.getItem(`fbssls_${appId}`) || ''
-      this.auth = JSON.parse(localAuth)
+      const auth = await initFacebookSdk()
+      this.auth = auth
+      localStorage.setItem("accessTokenFB", auth?.accessToken)
+      if (auth) {
+        this.isAuthenticated = true
+      }
     },
     async login() {
       const { authResponse } = await apiLogin()
       this.auth = authResponse
+      if (authResponse) {
+        localStorage.setItem("accessTokenFB", 'has auth response')
+        this.isAuthenticated = true
+      }
     },
     async getMe() {
       let { name, email, picture } = await apiMe()
@@ -29,6 +37,8 @@ export const useUserStore = defineStore('user', {
     },
     async logout() {
       apiLogout()
+      localStorage.setItem("accessTokenFB", "undefined")
+      this.isAuthenticated = false
     }
   }
 })
