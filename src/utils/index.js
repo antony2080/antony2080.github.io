@@ -34,13 +34,17 @@ function initFacebookSdk() {
 
 
 const apiLogin = async () => {
-  const { authResponse } = await new Promise(FB.login);
-  return authResponse;
+  let result = await new Promise((resolve) => {
+    FB.login(function (response) {
+      console.log(response);
+    }, { scope: 'email' });
+  });
+  return result;
 };
 
 const apiMe = async () => {
   let result = await new Promise((resolve) => {
-    FB.api('/me', function (res) {
+    FB.api('/me', 'GET', { "fields": "id,name,email,picture" }, function (res) {
       console.log(res);
       resolve(res);
     });

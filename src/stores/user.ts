@@ -1,21 +1,31 @@
 import { defineStore } from 'pinia'
 // @ts-ignore
 import { apiLogin, apiMe, apiLogout } from '@/utils/index'
+const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
+
+type User = {
+  name: string,
+  email: string,
+  picture: {
+    data: {
+      url: string
+    }
+  }
+}
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    username: '',
     auth: {},
-    profile: {}
+    profile: {} as User
   }),
   actions: {
     async load() {
-      const localAuth = sessionStorage.getItem(`fbssls_395709766507934`) || ''
+      const localAuth = sessionStorage.getItem(`fbssls_${appId}`) || ''
       this.auth = JSON.parse(localAuth)
     },
     async login() {
-      let loginRes = await apiLogin()
-      this.auth = loginRes
+      const { authResponse } = await apiLogin()
+      this.auth = authResponse
     },
     async getMe() {
       let meRes = await apiMe()
