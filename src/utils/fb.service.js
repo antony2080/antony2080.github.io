@@ -1,6 +1,6 @@
 const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
 
-function initFacebookSdk() {
+function fbInit() {
   return new Promise(resolve => {
     // wait for facebook sdk to initialize before starting the vue app
     window.fbAsyncInit = function () {
@@ -13,11 +13,7 @@ function initFacebookSdk() {
 
       // auto authenticate with the api if already logged in with facebook
       FB.getLoginStatus(({ authResponse }) => {
-        if (authResponse) {
-          resolve(authResponse);
-        } else {
-          resolve();
-        }
+        resolve(authResponse);
       });
     };
 
@@ -33,33 +29,33 @@ function initFacebookSdk() {
 }
 
 
-const apiLogin = async () => {
+const fbLogin = async () => {
   let result = await new Promise((resolve) => {
-    FB.login(function (response) {
-      resolve(response);
+    FB.login(({ authResponse }) => {
+      resolve(authResponse);
     }, { scope: 'email' });
   });
   return result;
 };
 
-const apiMe = async () => {
+const fbMe = async () => {
   let result = await new Promise((resolve) => {
-    FB.api('/me', 'GET', { "fields": "id,name,email,picture" }, function (res) {
-      resolve(res);
+    FB.api('/me', 'GET', { "fields": "id,name,email,picture" }, (response) => {
+      resolve(response);
     });
   });
   return result;
 };
 
-const apiLogout = () => {
+const fbLogout = () => {
   FB.api('/me/permissions', 'delete', null, () => {
     FB.logout();
   });
 };
 
-export {
-  initFacebookSdk,
-  apiLogin,
-  apiLogout,
-  apiMe
+export const fbService = {
+  fbInit,
+  fbLogin,
+  fbLogout,
+  fbMe
 };

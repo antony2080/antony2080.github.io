@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 // @ts-ignore
-import { apiLogin, apiMe, apiLogout, initFacebookSdk } from '@/utils/index'
+import { fbService } from '@/utils/index'
 
 type User = {
   name: string,
@@ -16,27 +16,34 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     async load() {
-      const auth = await initFacebookSdk()
-      this.auth = auth
-      localStorage.setItem("accessTokenFB", auth?.accessToken)
-      if (auth) {
+      const authResponse = await fbService.fbInit()
+      if (authResponse) {
+        console.log('[load] res:', authResponse)
+        this.auth = authResponse
+        localStorage.setItem("accessTokenFB", authResponse?.accessToken)
         this.isAuthenticated = true
+      } else {
+        console.log('[load fail] auth:', authResponse)
       }
     },
     async login() {
-      const { authResponse } = await apiLogin()
-      this.auth = authResponse
+      console.log('[login start]')
+      const authResponse = await fbService.fbLogin()
       if (authResponse) {
-        localStorage.setItem("accessTokenFB", 'has auth response')
+        console.log('[login success] auth:', authResponse)
+        this.auth = authResponse
+        localStorage.setItem("accessTokenFB", authResponse?.accessToken)
         this.isAuthenticated = true
+      } else {
+        console.log('[login fail] auth:', authResponse)
       }
     },
     async getMe() {
-      let { name, email, picture } = await apiMe()
+      let { name, email, picture } = await fbService.fbMe()
       this.profile = { name, email, url: picture?.data?.url }
     },
     async logout() {
-      apiLogout()
+      fbService.fbLogout()
       localStorage.setItem("accessTokenFB", "undefined")
       this.isAuthenticated = false
     }

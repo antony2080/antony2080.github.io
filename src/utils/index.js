@@ -1,6 +1,1 @@
-export {
-  initFacebookSdk,
-  apiLogin,
-  apiLogout,
-  apiMe
-} from './fb-api.js';
+export * from './fb.service.js';
