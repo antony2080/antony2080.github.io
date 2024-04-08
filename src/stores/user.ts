@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', {
     },
     async logout() {
       fbService.fbLogout()
-      localStorage.setItem("accessTokenFB", "undefined")
+      localStorage.removeItem("accessTokenFB")
       this.isAuthenticated = false
     }
   }
