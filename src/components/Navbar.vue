@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import imageUrl from '@/assets/favicon-32x32.png';
 </script>
 <template>
