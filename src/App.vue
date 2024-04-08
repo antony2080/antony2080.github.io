@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Navbar from '@/components/Navbar.vue'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia';
 const store = useUserStore()
@@ -10,6 +11,7 @@ store.load()
   <div class="drawer md:drawer-open">
     <input type="checkbox" id="my-drawer-2" class="drawer-toggle">
     <div class="drawer-content">
+      <Navbar />
       <router-view></router-view>
     </div>
     <div class="drawer-side">
