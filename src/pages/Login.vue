@@ -1,15 +1,26 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
+import { useToastStore } from '@/stores/toast'
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const store = useUserStore()
+const toastStore = useToastStore()
 const { isAuthenticated } = storeToRefs(store)
 
 const login = async () => {
   await store.login()
   if (isAuthenticated.value) {
     router.push('/')
+    toastStore.add({
+      message: "Login successfully.",
+      status: "alert-success"
+    })
+  } else {
+    toastStore.add({
+      message: "Login fail, please try again.",
+      status: "alert-error"
+    })
   }
 }
 </script>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Navbar from '@/components/Navbar.vue'
 import { useUserStore } from '@/stores/user'
+import Toast from '@/components/Toast.vue'
 import { storeToRefs } from 'pinia';
 const store = useUserStore()
 const { isAuthenticated } = storeToRefs(store)
@@ -23,4 +24,5 @@ store.load()
       </ul>
     </div>
   </div>
+  <Toast />
 </template>

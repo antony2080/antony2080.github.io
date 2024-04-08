@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user'
+import { useToastStore } from '@/stores/toast'
 import { storeToRefs } from 'pinia';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router'
 const store = useUserStore()
+const toastStore = useToastStore()
 const { isAuthenticated } = storeToRefs(store)
 const router = useRouter()
 
@@ -18,8 +20,12 @@ const doGetMe = () => {
   }, 100)
 }
 
-const logout = () => {
-  store.logout()
+const logout = async () => {
+  await store.logout()
+  toastStore.add({
+    message: "Logout successfully.",
+    status: "alert-success"
+  })
   router.push('/login')
 }
 
