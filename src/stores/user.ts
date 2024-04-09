@@ -2,18 +2,33 @@ import { defineStore } from 'pinia'
 // @ts-ignore
 import { fbService } from '@/utils/index'
 
-type User = {
+type Profile = {
   username: string,
   email: string,
   pictureUrl: string
 }
 
+type Auth = {
+  userID: string,
+  expiresIn: number,
+  accessToken: string,
+  signedRequest: string,
+  graphDomain: string,
+  data_access_expiration_time: number
+}
+
+type User = {
+  profile: Profile,
+  auth: Auth,
+  isAuthenticated: boolean
+}
+
 export const useUserStore = defineStore('user', {
   state: () => ({
+    profile: {},
     auth: {},
     isAuthenticated: false,
-    profile: {} as User
-  }),
+  } as User),
   actions: {
     async load() {
       const authResponse = await fbService.fbInit()
