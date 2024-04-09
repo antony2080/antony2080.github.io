@@ -3,9 +3,9 @@ import { defineStore } from 'pinia'
 import { fbService } from '@/utils/index'
 
 type User = {
-  name: string,
+  username: string,
   email: string,
-  url: string
+  pictureUrl: string
 }
 
 export const useUserStore = defineStore('user', {
@@ -39,8 +39,8 @@ export const useUserStore = defineStore('user', {
       }
     },
     async getMe() {
-      let { name, email, picture } = await fbService.fbMe()
-      this.profile = { name, email, url: picture?.data?.url }
+      let { name: username, email, picture } = await fbService.fbMe()
+      this.profile = { username, email, pictureUrl: picture?.data?.url }
     },
     async logout() {
       fbService.fbLogout()

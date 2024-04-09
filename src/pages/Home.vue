@@ -43,11 +43,11 @@ onMounted(() => {
         <div class="flex items-center" v-else>
           <div class="avatar">
             <div class="w-12 rounded">
-              <img :src="profile.url" alt="me">
+              <img :src="profile.pictureUrl" alt="me">
             </div>
           </div>
           <div class="pl-4">
-            <h1 class="text-xl font-bold">{{ profile.name }}</h1>
+            <h1 class="text-xl font-bold">{{ profile.username }}</h1>
             <p class="text-slate-500">{{ profile.email }}</p>
           </div>
         </div>
