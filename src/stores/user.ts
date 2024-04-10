@@ -19,26 +19,25 @@ type Auth = {
 
 type User = {
   profile: Profile,
-  auth: Auth,
-  isAuthenticated: boolean
+  token: string,
+  auth: Auth
 }
 
 export const useUserStore = defineStore('user', {
   state: () => ({
     profile: {},
+    token: '',
     auth: {},
-    isAuthenticated: false,
   } as User),
+  getters: {
+    isAuthenticated: state => !!state.token
+  },
   actions: {
     async load() {
+      this.token = localStorage.getItem("accessTokenFB") || ""
       const authResponse = await fbService.fbInit()
       if (authResponse) {
-        console.log('[load] res:', authResponse)
         this.auth = authResponse
-        localStorage.setItem("accessTokenFB", authResponse?.accessToken)
-        this.isAuthenticated = true
-      } else {
-        console.log('[load fail] auth:', authResponse)
       }
     },
     async login() {
@@ -47,8 +46,8 @@ export const useUserStore = defineStore('user', {
       if (authResponse) {
         console.log('[login success] auth:', authResponse)
         this.auth = authResponse
+        this.token = authResponse?.accessToken
         localStorage.setItem("accessTokenFB", authResponse?.accessToken)
-        this.isAuthenticated = true
       } else {
         console.log('[login fail] auth:', authResponse)
       }
@@ -60,7 +59,7 @@ export const useUserStore = defineStore('user', {
     async logout() {
       fbService.fbLogout()
       localStorage.removeItem("accessTokenFB")
-      this.isAuthenticated = false
+      this.auth = {} as Auth
     }
   }
 })
