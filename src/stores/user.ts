@@ -60,6 +60,7 @@ export const useUserStore = defineStore('user', {
       fbService.fbLogout()
       localStorage.removeItem("accessTokenFB")
       this.auth = {} as Auth
+      this.token = ''
     }
   }
 })
