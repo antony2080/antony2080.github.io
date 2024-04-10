@@ -44,7 +44,6 @@ export const useUserStore = defineStore('user', {
       console.log('[login start]')
       const authResponse = await fbService.fbLogin()
       if (authResponse) {
-        console.log('[login success] auth:', authResponse)
         this.auth = authResponse
         this.token = authResponse?.accessToken
         localStorage.setItem("accessTokenFB", authResponse?.accessToken)

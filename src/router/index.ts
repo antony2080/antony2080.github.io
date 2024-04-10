@@ -29,7 +29,6 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const { isAuthenticated } = useUserStore()
-  console.log("isAuthenticated:", isAuthenticated)
   if (to.meta.requiresAuth && !isAuthenticated) {
     router.push("/login");
   }
